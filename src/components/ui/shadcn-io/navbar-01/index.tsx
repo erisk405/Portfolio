@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import { useEffect, useState, useRef } from "react";
 import {
@@ -112,9 +111,10 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
 // Default navigation links
 const defaultNavigationLinks: Navbar01NavLink[] = [
   { href: "#", label: "Home", active: true },
-  { href: "#features", label: "Features" },
-  { href: "#pricing", label: "Pricing" },
+  { href: "#features", label: "Skill" },
+  { href: "#pricing", label: "Project" },
   { href: "#about", label: "About" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export const NavbarHeader = React.forwardRef<HTMLElement, Navbar01Props>(
