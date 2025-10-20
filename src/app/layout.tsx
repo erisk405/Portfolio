@@ -9,16 +9,6 @@ import {
 } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 const notoSansThai = Noto_Sans_Thai({
   subsets: ["latin", "thai"],
   weight: ["400", "500", "700"],
@@ -29,12 +19,6 @@ const prompt = Prompt({
   subsets: ["thai", "latin"],
   weight: ["400", "500", "700"],
   variable: "--font-prompt",
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
