@@ -263,7 +263,7 @@ export const NavbarHeader = React.forwardRef<HTMLElement, Navbar01Props>(
           </div>
           <div className="flex flex-col items-center gap-3">
             <ThemeToggleButton
-              theme={theme ? "dark" : "light"}
+              theme={theme === "dark" ? "dark" : "light"}
               onClick={handleThemeToggle}
               variant="gif"
               url="https://res.cloudinary.com/dgfwfpxvg/image/upload/v1761114347/anime-chibi_cu303r.gif"
