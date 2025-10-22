@@ -97,7 +97,10 @@ export default function AboutMeSection() {
   ];
 
   return (
-    <section className="relative py-20 px-8 bg-gray-50 dark:bg-gray-900" id="about">
+    <section
+      className="relative py-20 px-8 bg-gray-50 dark:bg-zinc-900 overflow-hidden"
+      id="about"
+    >
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="mb-16">
@@ -157,7 +160,9 @@ export default function AboutMeSection() {
           <div className="space-y-8">
             {/* Bio */}
             <div className="space-y-2">
-              <h1 className="text-2xl mb-2 font-bold">A Little About Me 🫠</h1>
+              <h1 className="text-2xl mb-2 font-bold dark:text-zinc-300">
+                A Little About Me 🫠
+              </h1>
               <p className="text-md text-gray-700 dark:text-gray-300 leading-relaxed">
                 I am a Computer Engineering student at Rajamangala University of
                 Technology Isan, passionate about software engineering and

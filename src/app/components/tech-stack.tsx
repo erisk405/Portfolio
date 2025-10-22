@@ -6,13 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { SkillProps } from "@/shared/types/skill-type";
 
-
 export function TechStackWithStats() {
   return (
     <section className="relative py-20 px-8" id="skill">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto dark:text-zinc-300">
         <div className="mb-12">
-          <h2 className="text-xl md:text-4xl font-bold mb-4">Tech Stack</h2>
+          <h2 className="text-xl md:text-4xl font-bold mb-4 dark:text-zinc-300">
+            Tech Stack
+          </h2>
           <p className="text-gray-600 dark:text-gray-400 ml-16">
             Technologies powering my projects
           </p>
@@ -31,7 +32,7 @@ export function TechStackWithStats() {
                   target="_blank"
                   className="bg-white w-[60px] h-[60px] hover:scale-110
                   transform transition-transform duration-100 ease-in-out
-                  flex justify-around items-center dark:bg-gray-800
+                  flex justify-around items-center dark:bg-zinc-800
                   rounded-lg shadow-md p-2 cursor-pointer"
                 >
                   <Image
@@ -51,7 +52,7 @@ export function TechStackWithStats() {
                   key={skill.title}
                   className="bg-white whitespace-nowrap
                 transform transition-transform duration-100 ease-in-out
-                flex gap-2 items-center dark:bg-gray-800
+                flex gap-2 items-center dark:bg-zinc-800
                 rounded-lg shadow-md p-2 cursor-pointer"
                 >
                   <span>{skill.emoji}</span>
@@ -69,8 +70,6 @@ export function TechStackWithStats() {
               />
             </div>
           </div>
-
-         
         </div>
       </div>
     </section>

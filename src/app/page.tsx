@@ -45,7 +45,7 @@ export default function Home() {
             {/* Text Content */}
             <div className="space-y-4">
               <h1 className="flex gap-4 flex-wrap items-end justify-center text-5xl text-zinc-700 md:text-6xl font-bold tracking-tight">
-                <span>Greetings, I'm</span>
+                <span className="dark:text-gray-300">Greetings, I'm</span>
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Krittaphat
                 </span>
@@ -60,7 +60,7 @@ export default function Home() {
                 </span>
               </h1>
 
-              <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-light">
+              <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-light">
                 Turning Ideas into Code
               </p>
 
@@ -80,18 +80,18 @@ export default function Home() {
               </Link>
               <Link
                 href={"#contact"}
-                className="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+                className="px-6 py-3 border dark:text-zinc-300 border-gray-300 dark:border-gray-500 rounded-full font-medium hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
               >
                 Contact Me
               </Link>
             </div>
           </div>
         </div>
-        <div className="py-8 flex items-center justify-center w-full overflow-hidden">
+        <div className="mt-20 lg:my-8 flex items-center justify-center w-full overflow-hidden">
           <ScrollVelocity
             texts={["Turning Ideas into Code", "Crafting The Future"]}
             velocity={100}
-            className="text-zinc-700"
+            className="text-zinc-700 dark:text-zinc-300"
           />
         </div>
         {/* About Me Section */}
@@ -105,7 +105,7 @@ export default function Home() {
 
         {/* Contact Section */}
         <section
-          className="relative py-32 px-8 bg-gray-50 dark:bg-gray-900"
+          className="relative py-32 px-8 bg-gray-50 dark:bg-zinc-900 dark:text-zinc-300"
           id="contact"
         >
           <div className="max-w-4xl mx-auto text-center">
@@ -123,7 +123,7 @@ export default function Home() {
             </button>
 
             {/* Social Links */}
-            <div className="flex justify-center gap-8 text-sm">
+            <div className="flex flex-wrap justify-center gap-8 text-sm">
               <Link
                 href="mailto:eriss.k405@gmail.com"
                 className="hover:underline"
@@ -159,7 +159,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t-2 border-zinc-200 dark:border-white py-8 px-8">
+        <footer className="border-t-2 border-zinc-200 dark:border-zinc-700 py-8 px-8">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-gray-600 dark:text-gray-400">
               © 2025 Krittaphat. All rights reserved.

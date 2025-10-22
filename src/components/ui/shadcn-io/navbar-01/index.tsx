@@ -1,12 +1,13 @@
 "use client";
 import * as React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import { useTheme } from "next-themes";
 import {
   Popover,
   PopoverContent,
@@ -14,6 +15,9 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Button } from "../../button";
+import { ThemeToggleButton, useThemeTransition } from "../theme-toggle-button";
+import { Mode, useSettingsContext } from "@/contexts/settingsContext";
+import Link from "next/link";
 
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
@@ -110,9 +114,9 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
 
 // Default navigation links
 const defaultNavigationLinks: Navbar01NavLink[] = [
-  { href: "#", label: "Home", active: true },
-  { href: "#features", label: "Skill" },
-  { href: "#pricing", label: "Project" },
+  { href: "#home", label: "Home", active: false },
+  { href: "#skill", label: "Skill" },
+  { href: "#projects", label: "Project" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
@@ -122,7 +126,7 @@ export const NavbarHeader = React.forwardRef<HTMLElement, Navbar01Props>(
     {
       className,
       logo = <Logo />,
-      logoHref = "#",
+      logoHref = "#home",
       navigationLinks = defaultNavigationLinks,
       signInText = "Sign In",
       signInHref = "#signin",
@@ -134,28 +138,10 @@ export const NavbarHeader = React.forwardRef<HTMLElement, Navbar01Props>(
     },
     ref,
   ) => {
-    const [isMobile, setIsMobile] = useState(false);
     const containerRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-      const checkWidth = () => {
-        if (containerRef.current) {
-          const width = containerRef.current.offsetWidth;
-          setIsMobile(width < 768); // 768px is md breakpoint
-        }
-      };
-
-      checkWidth();
-
-      const resizeObserver = new ResizeObserver(checkWidth);
-      if (containerRef.current) {
-        resizeObserver.observe(containerRef.current);
-      }
-
-      return () => {
-        resizeObserver.disconnect();
-      };
-    }, []);
+    const { theme, setTheme } = useTheme();
+    const { settings, updateSettings } = useSettingsContext();
+    const { startTransition } = useThemeTransition();
 
     // Combine refs
     const combinedRef = React.useCallback(
@@ -170,6 +156,33 @@ export const NavbarHeader = React.forwardRef<HTMLElement, Navbar01Props>(
       [ref],
     );
 
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+      setMounted(true);
+    }, []);
+    const handleThemeToggle = useCallback(() => {
+      const newMode: Mode = theme === "dark" ? "light" : "dark";
+
+      startTransition(() => {
+        const updatedSettings = {
+          ...settings,
+          mode: newMode,
+          theme: {
+            ...settings.theme,
+            styles: {
+              light: settings.theme.styles?.light || {},
+              dark: settings.theme.styles?.dark || {},
+            },
+          },
+        };
+        updateSettings(updatedSettings);
+        setTheme(newMode);
+      });
+    }, [settings, updateSettings, setTheme, theme, startTransition]);
+    if (!mounted) {
+      return null;
+    }
+
     return (
       <header
         ref={combinedRef}
@@ -183,40 +196,38 @@ export const NavbarHeader = React.forwardRef<HTMLElement, Navbar01Props>(
           {/* Left side */}
           <div className="flex w-full items-center gap-2">
             {/* Mobile menu trigger */}
-            {isMobile && (
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    className="group h-9 w-9 hover:bg-accent hover:text-accent-foreground"
-                    variant="ghost"
-                    size="icon"
-                  >
-                    <HamburgerIcon />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="start" className="w-48 p-2">
-                  <NavigationMenu className="max-w-none">
-                    <NavigationMenuList className="flex-col items-start gap-1">
-                      {navigationLinks.map((link, index) => (
-                        <NavigationMenuItem key={index} className="w-full">
-                          <button
-                            onClick={(e) => e.preventDefault()}
-                            className={cn(
-                              "flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer no-underline",
-                              link.active
-                                ? "bg-accent text-accent-foreground"
-                                : "text-foreground/80",
-                            )}
-                          >
-                            {link.label}
-                          </button>
-                        </NavigationMenuItem>
-                      ))}
-                    </NavigationMenuList>
-                  </NavigationMenu>
-                </PopoverContent>
-              </Popover>
-            )}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  className="group h-9 w-9 hover:bg-accent hover:text-accent-foreground lg:hidden"
+                  variant="ghost"
+                  size="icon"
+                >
+                  <HamburgerIcon />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="start" className="w-full p2">
+                <NavigationMenu className="w-full">
+                  <NavigationMenuList className="flex-col w-full items-start gap-1">
+                    {navigationLinks.map((link, index) => (
+                      <NavigationMenuItem key={index} className="w-full">
+                        <button
+                          onClick={(e) => e.preventDefault()}
+                          className={cn(
+                            "flex w-full items-center rounded-md px-20 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer no-underline",
+                            link.active
+                              ? "bg-accent text-accent-foreground"
+                              : "text-foreground/80",
+                          )}
+                        >
+                          <Link href={link.href}>{link.label}</Link>
+                        </button>
+                      </NavigationMenuItem>
+                    ))}
+                  </NavigationMenuList>
+                </NavigationMenu>
+              </PopoverContent>
+            </Popover>
             {/* Main nav */}
             <div className="flex w-full justify-between items-center gap-6">
               <button
@@ -229,28 +240,34 @@ export const NavbarHeader = React.forwardRef<HTMLElement, Navbar01Props>(
                 </span>
               </button>
               {/* Navigation menu */}
-              {!isMobile && (
-                <NavigationMenu className="flex">
-                  <NavigationMenuList className="gap-1">
-                    {navigationLinks.map((link, index) => (
-                      <NavigationMenuItem key={index}>
-                        <button
-                          onClick={(e) => e.preventDefault()}
-                          className={cn(
-                            "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline",
-                            link.active
-                              ? "bg-accent text-accent-foreground"
-                              : "text-foreground/80 hover:text-foreground",
-                          )}
-                        >
-                          {link.label}
-                        </button>
-                      </NavigationMenuItem>
-                    ))}
-                  </NavigationMenuList>
-                </NavigationMenu>
-              )}
+              <NavigationMenu className="hidden lg:flex">
+                <NavigationMenuList className="gap-1">
+                  {navigationLinks.map((link, index) => (
+                    <NavigationMenuItem key={index}>
+                      <button
+                        onClick={(e) => e.preventDefault()}
+                        className={cn(
+                          "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline",
+                          link.active
+                            ? "bg-accent text-accent-foreground"
+                            : "text-foreground/80 hover:text-foreground",
+                        )}
+                      >
+                        <Link href={link.href}>{link.label}</Link>
+                      </button>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
             </div>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <ThemeToggleButton
+              theme={theme ? "dark" : "light"}
+              onClick={handleThemeToggle}
+              variant="gif"
+              url="https://res.cloudinary.com/dgfwfpxvg/image/upload/v1761114347/anime-chibi_cu303r.gif"
+            />
           </div>
           {/* Right side */}
           <div className="hidden items-center gap-3">

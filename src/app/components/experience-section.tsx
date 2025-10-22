@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import * as React from "react";
 
 const ExperienceSection = () => {
   return (
-    <section className="relative py-20 px-8" id="experience">
+    <section className="relative py-20 px-8 dark:text-zinc-300" id="experience">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="mb-16">

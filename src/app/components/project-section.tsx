@@ -19,7 +19,6 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-
 const getRandomPosition = () => ({
   x: Math.floor(Math.random() * 80) + 10, // Keep within 10-90% range
   y: Math.floor(Math.random() * 80) + 10, // Keep within 10-90% range
@@ -76,7 +75,10 @@ const ProjectSection = () => {
     position: userPositions[index],
   }));
   return (
-    <section className="relative py-20 px-8 bg-gray-50 dark:bg-gray-900" id="projects">
+    <section
+      className="relative py-20 px-8 bg-gray-50 dark:bg-zinc-900 dark:text-zinc-300 overflow-hidden"
+      id="projects"
+    >
       {/* Section Header */}
       <div className="max-w-6xl mx-auto mb-16">
         <div className="flex items-center gap-4 mb-4">
@@ -98,7 +100,7 @@ const ProjectSection = () => {
               className={project.imagePosition === "right" ? "md:order-2" : ""}
             >
               <CardContainer className="inter-var" containerClassName="w-full">
-                <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-auto rounded-xl p-4 border">
+                <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-zinc-950 dark:border-white/[0.2] border-black/[0.1] w-full h-auto rounded-xl p-2 border">
                   <CardItem translateZ="100" className="w-full h-full">
                     <img
                       src={project.image}
